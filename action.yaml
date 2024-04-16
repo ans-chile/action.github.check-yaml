@@ -1,6 +1,9 @@
 name: "Check Deployment"
 description: "Check yaml and helm chart files"
-icon: align-justify
+autor: ANS CHILE
+branding:
+  icon: 'align-justify'
+  color: 'blue'
 inputs:
   chart_path:
     description: "Path to the helm chart"
