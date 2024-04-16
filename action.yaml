@@ -1,0 +1,28 @@
+name: "Check Deployment"
+description: "Check yaml and helm chart files"
+inputs:
+  chart_path:
+    description: "Path to the helm chart"
+    required: true
+runs:
+  using: "composite"
+  steps:
+      - name: Create .yamllint file
+        shell: bash
+        run: |
+          echo "line-length: disable" > .yamllint
+      - name: Check yaml files
+        id: check_yaml
+        shell: bash
+        run: |
+          yamllint -c .yamllint ${{ inputs.chart_path }}
+      - name: Update helm dependencies
+        id: update_helm
+        shell: bash
+        run: |
+          helm dependency update ${{ inputs.chart_path }}
+      - name: Check helm chart
+        id: check_helm
+        shell: bash
+        run: |
+          helm lint ${{ inputs.chart_path }} --quiet
